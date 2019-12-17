@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tender_cpv_list"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="tender_cpv_list">
+            <column name="tender_id" type="integer"/>
+            <column name="cpv" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="tender_cpv_list" columnNames="tender_id, cpv"
+                       constraintName="pk_tender_cpv_list"/>
+
+        <addForeignKeyConstraint baseTableName="tender_cpv_list" baseColumnNames="tender_id"
+                                 constraintName="fk_tender_cpv_list_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="report_one_time"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="report_one_time">
+            <column name="buyer_id" type="integer"/>
+            <column name="cpv" type="text"/>
+            <column name="date" type="timestamp"/>
+            <column name="published_year" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="report_one_time" columnNames="buyer_id, cpv, published_year"
+                       constraintName="pk_report_one_time"/>
+
+        <addForeignKeyConstraint baseTableName="report_one_time" baseColumnNames="buyer_id"
+                                 constraintName="fk_report_one_time_to_party"
+                                 referencedTableName="party"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="indicator"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="indicator">
+            <column name="id" type="smallint"/>
+            <column name="name" type="text"/>
+            <column name="impact" type="real"/>
+        </createTable>
+
+        <addPrimaryKey tableName="indicator" columnNames="id"/>
+
+        <addUniqueConstraint tableName="indicator" columnNames="name" constraintName="unique_indicator_name"/>
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tender_indicator"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="tender_indicator">
+            <column name="tender_id" type="integer"/>
+            <column name="indicator_id" type="smallint"/>
+            <column name="indicator_value" type="smallint"/>
+        </createTable>
+
+        <addPrimaryKey tableName="tender_indicator" columnNames="tender_id,indicator_id" constraintName="pk_tender_indicator"/>
+
+        <addForeignKeyConstraint baseTableName="tender_indicator" baseColumnNames="tender_id"
+                                 constraintName="fk_tender_indicator_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="tender_indicator" baseColumnNames="indicator_id"
+                                 constraintName="fk_tender_indicator_to_indicator"
+                                 referencedTableName="indicator"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="5" author="eddy">
+        <sql>
+            INSERT INTO indicator VALUES(1,'KRAI1') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(2,'KRAI2') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(3,'KRAI3') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(4,'KRAI4') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(5,'KRAI5') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(6,'KRAI6') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(7,'KRAI7') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(8,'KRAI8') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(9,'KRAI9') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(10,'KRAI10') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(11,'KRAI11') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(12,'KRAI12') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(13,'KRAI13') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(14,'KRAI14') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(15,'KRAI15') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(16,'KRAI16') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(17,'KRAI17') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(18,'KRAI18') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(19,'KRAI19') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(20,'KRAI20') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(21,'KRAI21') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(22,'KRAI22') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(23,'KRAI23') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(24,'KRAI24') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(25,'KRAI25') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(26,'KRAI26') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(27,'KRAI27') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(28,'KRAI28') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(29,'KRAI29') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(30,'KRAI30') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(31,'KRAI31') ON CONFLICT DO NOTHING;
+            INSERT INTO indicator VALUES(32,'KRAI32') ON CONFLICT DO NOTHING;
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="report_cpv"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="report_cpv">
+            <column name="buyer_id" type="integer"/>
+            <column name="cpv" type="text"/>
+            <column name="date" type="timestamp"/>
+            <column name="published_year" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="report_cpv" columnNames="buyer_id, cpv, date"
+                       constraintName="pk_report_cpv"/>
+
+        <addForeignKeyConstraint baseTableName="report_cpv"
+                                 baseColumnNames="buyer_id"
+                                 constraintName="fk_report_cpv_to_party"
+                                 referencedTableName="party"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

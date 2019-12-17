@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tender_prioritization"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="tender_prioritization">
+            <column name="tender_id" type="integer"/>
+            <column name="procedure_expected_value" type="double precision"/>
+            <column name="completed_lot_value" type="double precision"/>
+            <column name="procurement_method_details" type="text"/>
+            <column name="date_published" type="timestamp"/>
+            <column name="contract_date" type="timestamp"/>
+            <column name="count_completed_lot" type="integer"/>
+            <column name="count_tenderer" type="integer"/>
+            <column name="count_disqualified" type="integer"/>
+            <column name="suppliers_count" type="integer"/>
+            <column name="passed_indicators_count" type="integer"/>
+            <column name="cpv_count" type="integer"/>
+            <column name="risk_level" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="tender_prioritization" columnNames="tender_id"
+                       constraintName="pk_tender_prioritization"/>
+    </changeSet>
+
+</databaseChangeLog>

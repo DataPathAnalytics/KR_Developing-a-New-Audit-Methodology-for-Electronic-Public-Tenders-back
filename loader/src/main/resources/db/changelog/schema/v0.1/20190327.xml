@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="template_type"/>
+            </not>
+        </preConditions>
+        <createTable tableName="template_type">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="template_type" columnNames="id" constraintName="pk_template_type"/>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="template"/>
+            </not>
+        </preConditions>
+        <createTable tableName="template">
+            <column name="id" type="serial"/>
+            <column name="base" type="boolean"/>
+            <column name="name" type="text"/>
+            <column name="base_template_id" type="integer"/>
+            <column name="type_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="template" columnNames="id" constraintName="pk_template"/>
+
+        <addForeignKeyConstraint baseTableName="template" baseColumnNames="base_template_id"
+                                 constraintName="fk_template_to_base_template"
+                                 referencedTableName="template"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="template" baseColumnNames="type_id"
+                                 constraintName="fk_template_to_template_type"
+                                 referencedTableName="template_type"
+                                 referencedColumnNames="id"/>
+
+
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="question_category"/>
+            </not>
+        </preConditions>
+        <createTable tableName="question_category">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+            <column name="template_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="question_category" columnNames="id" constraintName="pk_question_category"/>
+
+        <addForeignKeyConstraint baseTableName="question_category" baseColumnNames="template_id"
+                                 constraintName="fk_question_category_to_template"
+                                 referencedTableName="template"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions>
+            <not>
+                <tableExists tableName="question"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="question">
+            <column name="id" type="serial"/>
+            <column name="description" type="text"/>
+            <column name="category_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="question" columnNames="id" constraintName="pk_question"/>
+
+        <addForeignKeyConstraint baseTableName="question" baseColumnNames="category_id"
+                                 constraintName="fk_question_to_category"
+                                 referencedTableName="question_category"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="5" author="eddy">
+        <preConditions>
+            <not>
+                <tableExists tableName="checklist"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="checklist">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="template_id" type="integer"/>
+            <column name="auto_score_id" type="integer"/>
+            <column name="manual_score_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="checklist" columnNames="id" constraintName="pk_checklist"/>
+
+        <addForeignKeyConstraint baseTableName="checklist" baseColumnNames="template_id"
+                                 constraintName="fk_checklist_to_template"
+                                 referencedTableName="template"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="checklist" baseColumnNames="auto_score_id"
+                                 constraintName="fk_checklist_auto_to_checklist_score_"
+                                 referencedTableName="checklist_score"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="checklist" baseColumnNames="manual_score_id"
+                                 constraintName="fk_checklist_manual_to_checklist_score"
+                                 referencedTableName="checklist_score"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="6" author="eddy">
+        <preConditions>
+            <not>
+                <tableExists tableName="question_answer"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="question_answer">
+            <column name="id" type="serial"/>
+            <column name="checklist_id" type="integer"/>
+            <column name="question_id" type="integer"/>
+            <column name="answer_type_id" type="integer"/>
+            <column name="component_impact_id" type="integer"/>
+            <column name="comment" type="text"/>
+            <column name="npa" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="question_answer" columnNames="id" constraintName="pk_question_answer"/>
+
+        <addForeignKeyConstraint baseTableName="question_answer" baseColumnNames="checklist_id"
+                                 constraintName="fk_question_answer_to_checklist"
+                                 referencedTableName="checklist"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="question_answer" baseColumnNames="question_id"
+                                 constraintName="fk_question_answer_to_question"
+                                 referencedTableName="question"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="question_answer" baseColumnNames="answer_type_id"
+                                 constraintName="fk_question_answer_to_answer_type"
+                                 referencedTableName="answer_type"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="question_answer" baseColumnNames="component_impact_id"
+                                 constraintName="fk_question_answer_to_component_impact"
+                                 referencedTableName="component_impact"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="7" author="andrey_pylypchuk">
+        <modifyDataType tableName="tender_prioritization" columnName="contract_date" newDataType="date"/>
+        <modifyDataType tableName="tender_prioritization" columnName="date_published" newDataType="date"/>
+    </changeSet>
+
+</databaseChangeLog>

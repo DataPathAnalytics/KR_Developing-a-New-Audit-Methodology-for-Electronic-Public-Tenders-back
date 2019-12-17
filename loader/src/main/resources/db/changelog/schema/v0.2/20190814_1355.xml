@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="checklist" columnName="tenders_checklists_score_id"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="tenders_checklists_score_id" type="integer"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="checklist"
+                                 baseColumnNames="tenders_checklists_score_id"
+                                 constraintName="fk_tenders_checklists_to_checklist_score"
+                                 referencedTableName="checklist_score"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <createIndex indexName="pe_supplier_supplier_id_idx"
+                     tableName="pe_supplier">
+            <column name="supplier_id" type="integer"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <addColumn tableName="cpv_qualif_requir">
+            <column name="year" type="integer"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="andrey_pylypchuk">
+        <dropPrimaryKey constraintName="pk_cpv_qualif_requir" tableName="cpv_qualif_requir"/>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <addPrimaryKey columnNames="cpv, year" constraintName="pk_cpv_qualif_requir" tableName="cpv_qualif_requir"/>
+    </changeSet>
+
+</databaseChangeLog>

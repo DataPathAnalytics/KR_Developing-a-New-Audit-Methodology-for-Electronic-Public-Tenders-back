@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <dropColumn columnName="risk_level" tableName="buyer_prioritization"/>
+        <dropColumn columnName="procedure_number" tableName="buyer_prioritization"/>
+        <dropColumn columnName="procedures_expected_value" tableName="buyer_prioritization"/>
+        <dropColumn columnName="contracts_amount" tableName="buyer_prioritization"/>
+        <dropColumn columnName="risked_procedures" tableName="buyer_prioritization"/>
+        <dropColumn columnName="risked_procedures_with_contract" tableName="buyer_prioritization"/>
+        <dropColumn columnName="risked_procedures_expected_value" tableName="buyer_prioritization"/>
+        <dropColumn columnName="risked_procedures_expected_value_with_contract" tableName="buyer_prioritization"/>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <addColumn tableName="tender_prioritization">
+            <column name="current_stage" type="text"/>
+            <column name="contracts_amount" type="double precision"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <addColumn tableName="tender_prioritization">
+            <column name="cpv_list" type="text []"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="andrey_pylypchuk">
+        <modifyDataType columnName="cpv_list" newDataType="text[]" tableName="tender_prioritization"/>
+    </changeSet>
+
+    <changeSet id="5" author="andrey_pylypchuk">
+        <addColumn tableName="buyer_prioritization">
+            <column name="region" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <addColumn tableName="tender_prioritization">
+            <column name="passed_indicator_list" type="integer[]"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="7" author="eddy">
+        <preConditions>
+            <not>
+                <tableExists tableName="auditor"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="auditor">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+            <column name="email" type="text"/>
+            <column name="password" type="text"/>
+            <column name="disabled" type="boolean" defaultValue="true"/>
+        </createTable>
+
+        <addPrimaryKey tableName="auditor" columnNames="id" constraintName="pk_auditor"/>
+
+        <addUniqueConstraint tableName="auditor" columnNames="email" constraintName="unique_auditor_email"/>
+        <addNotNullConstraint tableName="auditor" columnName="password"/>
+    </changeSet>
+
+</databaseChangeLog>

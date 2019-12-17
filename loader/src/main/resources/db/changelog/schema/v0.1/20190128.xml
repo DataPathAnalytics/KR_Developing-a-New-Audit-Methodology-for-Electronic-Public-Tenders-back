@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="bid_lot"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="bid_lot">
+            <column name="bid_id" type="integer"/>
+            <column name="lot_id" type="integer"/>
+            <column name="amount" type="double precision"/>
+        </createTable>
+
+        <addPrimaryKey tableName="bid_lot" columnNames="bid_id, lot_id"
+                       constraintName="pk_bid_lot"/>
+
+        <addForeignKeyConstraint baseTableName="bid_lot"
+                                 baseColumnNames="bid_id"
+                                 constraintName="fk_bid_lot_to_bid"
+                                 referencedTableName="bid"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+</databaseChangeLog>

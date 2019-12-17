@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="checklist" columnName="contract_number"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="contract_number" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="checklist" columnName="contract_amount"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="contract_amount" type="real"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="checklist" columnName="contract_description"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="contract_description" type="real"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="checklist" columnName="supplier"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="supplier" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="5" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="question" columnName="base"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="question">
+            <column name="base" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="6" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="permission"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="permission">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+            <column name="description" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="permission" columnNames="id" constraintName="pk_permission"/>
+
+    </changeSet>
+
+    <changeSet id="7" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="auditor_permission"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="auditor_permission">
+            <column name="auditor_id" type="integer"/>
+            <column name="permission_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="auditor_permission" columnNames="auditor_id, permission_id"/>
+
+        <addForeignKeyConstraint baseTableName="auditor_permission" baseColumnNames="auditor_id"
+                                 constraintName="fk_auditor_permission_to_auditor"
+                                 referencedTableName="auditor"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="auditor_permission" baseColumnNames="permission_id"
+                                 constraintName="fk_auditor_permission_to_permission"
+                                 referencedTableName="permission"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="8" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="template" columnName="created_date"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="template">
+            <column name="created_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="9" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="template" columnName="modified_date"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="template">
+            <column name="modified_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10" author="eddy">
+        <modifyDataType tableName="template" columnName="created_date" newDataType="date"/>
+    </changeSet>
+
+    <changeSet id="11" author="eddy">
+        <modifyDataType tableName="template" columnName="modified_date" newDataType="date"/>
+    </changeSet>
+
+    <changeSet id="12" author="eddy">
+        <dropColumn tableName="template" columnName="created_date"/>
+    </changeSet>
+
+</databaseChangeLog>

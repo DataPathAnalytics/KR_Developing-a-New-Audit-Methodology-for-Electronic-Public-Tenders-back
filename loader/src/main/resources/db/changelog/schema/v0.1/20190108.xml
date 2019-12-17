@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="active_cpv"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="active_cpv">
+            <column name="buyer_id" type="integer"/>
+            <column name="cpv" type="text"/>
+            <column name="date" type="timestamp"/>
+            <column name="published_year" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="active_cpv" columnNames="buyer_id, cpv, date"
+                       constraintName="pk_active_cpv"/>
+
+        <addForeignKeyConstraint baseTableName="active_cpv"
+                                 baseColumnNames="buyer_id"
+                                 constraintName="fk_active_cpv_to_party"
+                                 referencedTableName="party"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions>
+            <not>
+                <tableExists tableName="qualification_requirement"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="qualification_requirement">
+            <column name="id" type="integer"/>
+            <column name="type" type="text"/>
+            <column name="tender_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="qualification_requirement" columnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="qualification_requirement" baseColumnNames="tender_id"
+                                 constraintName="fk_qualification_requirement_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

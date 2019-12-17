@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <createIndex indexName="tender_prioritization_buyer_id_idx"
+                     tableName="tender_prioritization">
+            <column name="buyer_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <createIndex indexName="bid_tender_id_idx"
+                     tableName="bid">
+            <column name="tender_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <modifyDataType tableName="tender_prioritization" columnName="procedure_expected_value" newDataType="bigint"/>
+        <modifyDataType tableName="tender_prioritization" columnName="completed_lot_value" newDataType="bigint"/>
+        <modifyDataType tableName="tender_prioritization" columnName="contracts_amount" newDataType="bigint"/>
+        <modifyDataType tableName="tender_prioritization" columnName="winner_bids_value" newDataType="bigint"/>
+    </changeSet>
+
+    <changeSet id="4" author="andrey_pylypchuk">
+        <addNotNullConstraint tableName="checklist" columnName="status_id" defaultNullValue="1"/>
+    </changeSet>
+
+</databaseChangeLog>

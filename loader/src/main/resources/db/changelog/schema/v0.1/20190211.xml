@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cpv_by_open_tender"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="cpv_by_open_tender">
+            <column name="cpv" type="text"/>
+            <column name="year" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="cpv_by_open_tender" columnNames="cpv, year" constraintName="pk_cpv_by_open_tender"/>
+    </changeSet>
+
+</databaseChangeLog>

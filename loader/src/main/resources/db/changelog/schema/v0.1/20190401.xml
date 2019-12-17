@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="checklist_status"/>
+            </not>
+        </preConditions>
+        <createTable tableName="checklist_status">
+            <column name="id" type="smallint"/>
+            <column name="name" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="checklist_status" columnNames="id" constraintName="pk_checklist_status"/>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <addColumn tableName="checklist">
+            <column name="status_id" type="smallint" defaultValue="1"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="checklist" baseColumnNames="status_id"
+                                 constraintName="fk_checklist_to_checklist_status"
+                                 referencedTableName="checklist_status"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <dropColumn tableName="okgz" columnName="parent"/>
+    </changeSet>
+
+    <changeSet id="4" author="andrey_pylypchuk">
+        <modifyDataType tableName="tender_prioritization" columnName="procedure_expected_value" newDataType="integer"/>
+        <modifyDataType tableName="tender_prioritization" columnName="completed_lot_value" newDataType="integer"/>
+        <modifyDataType tableName="tender_prioritization" columnName="contracts_amount" newDataType="integer"/>
+    </changeSet>
+
+    <changeSet id="5" author="andrey_pylypchuk">
+        <dropColumn tableName="tender" columnName="cpv"/>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <addColumn tableName="tender_prioritization">
+            <column name="contracts_count" type="integer"/>
+            <column name="winner_bids_value" type="integer"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

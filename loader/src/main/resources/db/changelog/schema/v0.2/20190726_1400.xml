@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="template_type_procurement_method"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="template_type_procurement_method">
+            <column name="type_id" type="integer"/>
+            <column name="procurement_method" type="text"/>
+        </createTable>
+
+        <addUniqueConstraint tableName="template_type_procurement_method" columnNames="type_id, procurement_method"/>
+
+        <addForeignKeyConstraint baseTableName="template_type_procurement_method" baseColumnNames="type_id"
+                                 constraintName="template_type_procurement_method_to_template_type"
+                                 referencedTableName="template_type"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

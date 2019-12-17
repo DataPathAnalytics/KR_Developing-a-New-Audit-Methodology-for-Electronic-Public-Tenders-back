@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="component_impact"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="component_impact">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+            <column name="impact" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="component_impact" columnNames="id" constraintName="pk_component_impact"/>
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="answer_type"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="answer_type">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="answer_type" columnNames="id" constraintName="pk_answer_type"/>
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <sql>
+            INSERT INTO answer_type VALUES(1,'Да') ON CONFLICT DO NOTHING;
+            INSERT INTO answer_type VALUES(2,'Нет') ON CONFLICT DO NOTHING;
+            INSERT INTO answer_type VALUES(3,'Не применимо') ON CONFLICT DO NOTHING;
+        </sql>
+    </changeSet>
+
+
+    <changeSet id="5" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="checklist_score"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="checklist_score">
+            <column name="id" type="serial"/>
+            <column name="name" type="text"/>
+            <column name="left_bound" type="integer"/>
+            <column name="right_bound" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="checklist_score" columnNames="id" constraintName="pk_checklist_score"/>
+    </changeSet>
+
+    <changeSet id="6" author="eddy">
+        <sql>
+            INSERT INTO checklist_score VALUES(1,'Недостатки отсутствуют',0,2) ON CONFLICT DO NOTHING;
+            INSERT INTO checklist_score VALUES(2,'Незначительные недостатки',2,3) ON CONFLICT DO NOTHING;
+            INSERT INTO checklist_score VALUES(3,'Недостатки присутствуют',3,4) ON CONFLICT DO NOTHING;
+            INSERT INTO checklist_score VALUES(4,'Высокий уровень недостатков',4,5) ON CONFLICT DO NOTHING;
+            INSERT INTO checklist_score VALUES(5,'Очень высокий уровень недостатков',5,6) ON CONFLICT DO NOTHING;
+            INSERT INTO checklist_score VALUES(6,'Критический уровень недостатков',6,7) ON CONFLICT DO NOTHING;
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>

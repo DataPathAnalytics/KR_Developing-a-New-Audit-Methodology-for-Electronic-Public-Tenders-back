@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="buyer_prioritization"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="buyer_prioritization">
+            <column name="buyer_id" type="integer"/>
+            <column name="identifier_id" type="text"/>
+            <column name="identifier_legal_name_ru" type="text"/>
+            <column name="risk_level" type="integer"/>
+            <column name="procedure_number" type="integer"/>
+            <column name="procedures_expected_value" type="real"/>
+            <column name="contracts_amount" type="real"/>
+            <column name="risked_procedures" type="integer"/>
+            <column name="risked_procedures_with_contract" type="integer"/>
+            <column name="risked_procedures_expected_value" type="real"/>
+            <column name="risked_procedures_expected_value_with_contract" type="real"/>
+            <column name="procedures_with_bad_data" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="buyer_prioritization" columnNames="buyer_id"
+                       constraintName="pk_buyer_prioritization"/>
+    </changeSet>
+
+</databaseChangeLog>

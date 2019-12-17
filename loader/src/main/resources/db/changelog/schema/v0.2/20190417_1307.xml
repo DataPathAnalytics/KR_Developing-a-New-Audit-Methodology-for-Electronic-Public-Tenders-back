@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <createIndex indexName="complaint_tender_id_idx"
+                     tableName="complaint">
+            <column name="tender_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="tender_prioritization" columnName="complaint_count"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="tender_prioritization">
+            <column name="complaint_count" type="integer"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="tender_prioritization" columnName="okgz_code"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="tender_prioritization">
+            <column name="okgz_code" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="andrey_pylypchuk">
+        <modifyDataType tableName="tender_prioritization" columnName="passed_indicator_list" newDataType="text[]"/>
+    </changeSet>
+
+    <changeSet id="5" author="andrey_pylypchuk">
+        <modifyDataType tableName="tender_prioritization" columnName="passed_indicator_list" newDataType="text"/>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <modifyDataType tableName="tender_prioritization" columnName="passed_indicator_list" newDataType="integer[]"/>
+    </changeSet>
+
+    <changeSet id="7" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="tender_prioritization" columnName="passed_indicator_name_list"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="tender_prioritization">
+            <column name="passed_indicator_name_list" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="8" author="andrey_pylypchuk">
+        <renameColumn tableName="tender_prioritization" oldColumnName="complaint_count" newColumnName="complaints_count"/>
+    </changeSet>
+
+    <changeSet id="9" author="andrey_pylypchuk">
+        <renameColumn tableName="tender_prioritization" oldColumnName="okgz_code" newColumnName="okgz_list"/>
+    </changeSet>
+
+    <changeSet id="10" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="tender_prioritization" columnName="region"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="tender_prioritization">
+            <column name="region" type="text"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

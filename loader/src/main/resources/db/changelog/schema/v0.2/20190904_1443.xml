@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions>
+                <columnExists tableName="checklist" columnName="tenders_score_id"/>
+        </preConditions>
+
+        <renameColumn newColumnName="manual_tenders_score_id" oldColumnName="tenders_score_id" tableName="checklist"/>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <preConditions>
+            <columnExists tableName="checklist" columnName="tenders_checklists_score_id"/>
+        </preConditions>
+
+        <renameColumn newColumnName="auto_tenders_score_id" oldColumnName="tenders_checklists_score_id" tableName="checklist"/>
+    </changeSet>
+
+</databaseChangeLog>

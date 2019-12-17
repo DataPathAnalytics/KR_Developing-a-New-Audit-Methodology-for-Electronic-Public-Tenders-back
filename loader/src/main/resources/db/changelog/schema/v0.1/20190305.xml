@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cpv_one_supplier"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="cpv_one_supplier">
+            <column name="buyer_id" type="integer"/>
+            <column name="supplier_id" type="integer"/>
+            <column name="classification_code" type="text"/>
+            <column name="amount" type="double precision"/>
+            <column name="date" type="date"/>
+            <column name="year" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="cpv_one_supplier" columnNames="buyer_id, supplier_id, classification_code, date, year"
+                       constraintName="pk_cpv_one_supplier"/>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <modifyDataType tableName="cpv_one_supplier" columnName="date" newDataType="timestamp"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions>
+            <not>
+                <columnExists tableName="checklist" columnName="buyer_id"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="buyer_id" type="integer"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="checklist" baseColumnNames="buyer_id"
+                                 constraintName="fk_checklist_to_buyer"
+                                 referencedTableName="party"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions>
+            <not>
+                <columnExists tableName="checklist" columnName="tender_id"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="tender_id" type="integer"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="checklist" baseColumnNames="tender_id"
+                                 constraintName="fk_checklist_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+
+        <createTable tableName="checklist_indicator">
+            <column name="id" type="serial"/>
+            <column name="indicator_id" type="integer"/>
+            <column name="answer_type_id" type="integer"/>
+            <column name="component_impact_id" type="integer"/>
+            <column name="checklist_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="checklist_indicator" columnNames="id" constraintName="pk_checklist_indicator"/>
+
+        <addForeignKeyConstraint baseTableName="checklist_indicator" baseColumnNames="answer_type_id"
+                                 constraintName="fk_checklist_indicator_to_answer_type"
+                                 referencedTableName="answer_type"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="checklist_indicator" baseColumnNames="component_impact_id"
+                                 constraintName="fk_checklist_indicator_to_component_impact"
+                                 referencedTableName="component_impact"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="checklist_indicator" baseColumnNames="checklist_id"
+                                 constraintName="fk_checklist_indicator_to_checklist"
+                                 referencedTableName="checklist"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions>
+            <not>
+                <columnExists tableName="checklist" columnName="auditor_id"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="auditor_id" type="integer"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="checklist" baseColumnNames="auditor_id"
+                                 constraintName="fk_checklist_to_auditor"
+                                 referencedTableName="auditor"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="5" author="eddy">
+        <preConditions>
+            <not>
+                <columnExists tableName="template" columnName="auditor_id"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="template">
+            <column name="auditor_id" type="integer"/>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="template" baseColumnNames="auditor_id"
+                                 constraintName="fk_template_to_auditor"
+                                 referencedTableName="auditor"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <addColumn tableName="tender">
+            <column name="guarantee_amount" type="double precision"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="7" author="andrey_pylypchuk">
+        <addColumn tableName="checklist">
+            <column name="modified_date" type="date"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="8" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="checklist_indicator"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="checklist_indicator">
+            <column name="id" type="serial"/>
+            <column name="indicator_id" type="integer"/>
+            <column name="answer_type_id" type="integer"/>
+            <column name="component_impact_id" type="integer"/>
+            <column name="checklist_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="checklist_indicator" columnNames="id" constraintName="pk_checklist_indicator"/>
+
+        <addForeignKeyConstraint baseTableName="checklist_indicator" baseColumnNames="answer_type_id"
+                                 constraintName="fk_checklist_indicator_to_answer_type"
+                                 referencedTableName="answer_type"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="checklist_indicator" baseColumnNames="component_impact_id"
+                                 constraintName="fk_checklist_indicator_to_component_impact"
+                                 referencedTableName="component_impact"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="checklist_indicator" baseColumnNames="checklist_id"
+                                 constraintName="fk_checklist_indicator_to_checklist"
+                                 referencedTableName="checklist"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="9" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="checklist" columnName="summary"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="summary" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="checklist_indicator" columnName="comment"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist_indicator">
+            <column name="comment" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="11" author="andrey_pylypchuk">
+        <preConditions>
+            <not>
+                <columnExists tableName="checklist" columnName="audit_name"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="audit_name" type="text"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

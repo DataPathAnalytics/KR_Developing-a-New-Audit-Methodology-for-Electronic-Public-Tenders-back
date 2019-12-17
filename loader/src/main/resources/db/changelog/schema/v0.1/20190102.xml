@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="price_proposal"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="price_proposal">
+            <column name="id" type="integer"/>
+            <column name="unit_id" type="integer"/>
+            <column name="unit_name" type="text"/>
+            <column name="unit_value_amount" type="double precision"/>
+            <column name="unit_value_currency" type="text"/>
+            <column name="item_id" type="integer"/>
+            <column name="lot_id" type="integer"/>
+            <column name="bid_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="price_proposal" columnNames="id"
+                       constraintName="pk_price_proposal"/>
+
+        <addForeignKeyConstraint baseTableName="price_proposal"
+                                 baseColumnNames="item_id"
+                                 constraintName="fk_price_proposal_to_item"
+                                 referencedTableName="item"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="price_proposal"
+                                 baseColumnNames="lot_id"
+                                 constraintName="fk_price_proposal_to_lot"
+                                 referencedTableName="lot"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="price_proposal"
+                                 baseColumnNames="bid_id"
+                                 constraintName="fk_price_proposal_to_bid"
+                                 referencedTableName="bid"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

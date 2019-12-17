@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <addUniqueConstraint tableName="question_category" columnNames="template_id,number"/>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <addUniqueConstraint tableName="question_answer"
+                             columnNames="checklist_id,category_number,question_number"/>
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <addUniqueConstraint tableName="question" columnNames="number, category_id"/>
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="active_cpv"/>
+            </not>
+        </preConditions>
+
+        <dropTable tableName="active_cpv"/>
+    </changeSet>
+
+    <changeSet id="5" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="report_cpv"/>
+            </not>
+        </preConditions>
+
+        <dropTable tableName="report_cpv"/>
+    </changeSet>
+
+    <changeSet id="6" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="report_one_time"/>
+            </not>
+        </preConditions>
+
+        <dropTable tableName="report_one_time"/>
+    </changeSet>
+
+    <changeSet id="7" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cpv_by_open_tender"/>
+            </not>
+        </preConditions>
+
+        <dropTable tableName="cpv_by_open_tender"/>
+    </changeSet>
+
+    <changeSet id="8" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cpv_qualif_requir"/>
+            </not>
+        </preConditions>
+
+        <dropTable tableName="cpv_qualif_requir"/>
+    </changeSet>
+
+    <changeSet id="9" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="cpv_mean_price"/>
+            </not>
+        </preConditions>
+
+        <dropTable tableName="cpv_mean_price"/>
+    </changeSet>
+
+</databaseChangeLog>

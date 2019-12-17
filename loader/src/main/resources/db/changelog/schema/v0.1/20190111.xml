@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="enquiry"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="enquiry">
+            <column name="id" type="integer"/>
+            <column name="date_answered" type="timestamp"/>
+            <column name="date" type="timestamp"/>
+            <column name="tender_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="enquiry" columnNames="id"
+                       constraintName="pk_enquiry"/>
+
+        <addForeignKeyConstraint baseTableName="enquiry"
+                                 baseColumnNames="tender_id"
+                                 constraintName="fk_enquiry_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="related_process"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="related_process">
+            <column name="id" type="text"/>
+            <column name="identifier" type="integer"/>
+            <column name="relationship" type="text"/>
+            <column name="tender_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="related_process" columnNames="id"
+                       constraintName="pk_related_process"/>
+
+        <addForeignKeyConstraint baseTableName="related_process"
+                                 baseColumnNames="tender_id"
+                                 constraintName="fk_related_process_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

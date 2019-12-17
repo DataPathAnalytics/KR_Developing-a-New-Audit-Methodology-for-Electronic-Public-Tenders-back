@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <createIndex indexName="item_tender_id_idx"
+                     tableName="item">
+            <column name="tender_id"/>
+        </createIndex>
+        <createIndex indexName="item_lot_id_idx"
+                     tableName="item">
+            <column name="lot_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <createIndex indexName="lot_tender_id_idx"
+                     tableName="lot">
+            <column name="tender_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <createIndex indexName="award_tender_id_idx"
+                     tableName="award">
+            <column name="tender_id"/>
+        </createIndex>
+        <createIndex indexName="award_bid_id_idx"
+                     tableName="award">
+            <column name="bid_id"/>
+        </createIndex>
+        <createIndex indexName="award_lot_id_idx"
+                     tableName="award">
+            <column name="lot_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="4" author="andrey_pylypchuk">
+        <createIndex indexName="contract_tender_id_idx"
+                     tableName="contract">
+            <column name="tender_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="5" author="andrey_pylypchuk">
+        <createIndex indexName="price_proposal_item_id_idx"
+                     tableName="price_proposal">
+            <column name="item_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <createIndex indexName="qualification_requirement_tender_id_idx"
+                     tableName="qualification_requirement">
+            <column name="tender_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="7" author="andrey_pylypchuk">
+        <createIndex indexName="price_proposal_bid_id_idx"
+                     tableName="price_proposal">
+            <column name="bid_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

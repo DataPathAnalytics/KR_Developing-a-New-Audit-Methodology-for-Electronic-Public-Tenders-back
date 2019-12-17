@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tender_risk_level_range"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="tender_risk_level_range">
+            <column name="id" type="serial"/>
+            <column name="procurement_method" type="text"/>
+            <column name="left_bound" type="integer"/>
+            <column name="level" type="integer"/>
+            <column name="description" type="text"/>
+            <column name="right_bound" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="tender_risk_level_range" columnNames="id"
+                       constraintName="pk_tender_risk_level_range"/>
+
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="buyer_risk_level_range"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="buyer_risk_level_range">
+            <column name="id" type="serial"/>
+            <column name="left_bound" type="integer"/>
+            <column name="right_bound" type="integer"/>
+            <column name="description" type="text"/>
+            <column name="level" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="buyer_risk_level_range" columnNames="id" constraintName="pk_buyer_risk_level_range"/>
+
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="tender" columnName="number"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="tender">
+            <column name="number" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="lot" columnName="number"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="lot">
+            <column name="number" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="5" author="eddy">
+        <modifyDataType tableName="checklist" columnName="contract_description" newDataType="text"/>
+    </changeSet>
+
+    <changeSet id="6" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="question_answer" columnName="category_name"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="question_answer">
+            <column name="category_name" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="7" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="question_answer" columnName="question_description"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="question_answer">
+            <column name="question_description" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="8" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="question_answer" columnName="base_question"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="question_answer">
+            <column name="base_question" type="boolean"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="9" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="checklist" columnName="template_name"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="template_name" type="text"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="10" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="checklist" columnName="template_type_id"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="checklist">
+            <column name="template_type_id" type="integer"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

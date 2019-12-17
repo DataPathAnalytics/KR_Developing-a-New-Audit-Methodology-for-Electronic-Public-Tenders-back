@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="tender" columnName="period_start_date"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="tender">
+            <column name="period_start_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="tender" columnName="period_end_date"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="tender">
+            <column name="period_end_date" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="bid" columnName="date_disclosed"/>
+            </not>
+        </preConditions>
+
+        <addColumn tableName="bid">
+            <column name="date_disclosed" type="timestamp"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="template" columnName="base_template_id"/>
+        </preConditions>
+
+        <dropColumn tableName="template" columnName="base_template_id"/>
+    </changeSet>
+</databaseChangeLog>

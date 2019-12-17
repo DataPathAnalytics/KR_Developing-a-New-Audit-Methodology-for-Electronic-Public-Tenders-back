@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="release"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="release">
+            <column name="ocid" type="text"/>
+            <column name="date" type="timestamp"/>
+        </createTable>
+
+        <addPrimaryKey tableName="release" columnNames="ocid" constraintName="pk_release"/>
+    </changeSet>
+
+    <changeSet id="2" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="party"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="party">
+            <column name="id" type="serial"/>
+            <column name="outer_id" type="text"/>
+            <column name="identifier_id" type="text"/>
+            <column name="identifier_scheme" type="text"/>
+            <column name="identifier_legal_name" type="text"/>
+            <column name="identifier_legal_name_ru" type="text"/>
+            <column name="identifier_legal_name_kg" type="text"/>
+            <column name="street_address" type="text"/>
+            <column name="locality" type="text"/>
+            <column name="district" type="text"/>
+            <column name="region" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="party" columnNames="id" constraintName="pk_party"/>
+
+        <addUniqueConstraint tableName="party" columnNames="outer_id"
+                             constraintName="unique_party"/>
+    </changeSet>
+
+    <changeSet id="3" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tender"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="tender">
+            <column name="id" type="integer"/>
+            <column name="ocid" type="text"/>
+            <column name="buyer_id" type="integer"/>
+            <column name="date" type="timestamp"/>
+            <column name="date_published" type="timestamp"/>
+            <column name="status" type="text"/>
+            <column name="current_stage" type="text"/>
+            <column name="procurement_method_rationale" type="text"/>
+            <column name="procurement_method_details" type="text"/>
+            <column name="amount" type="double precision"/>
+            <column name="bad_quality" type="boolean"/>
+            <column name="has_documents" type="boolean"/>
+            <column name="cpv" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="tender" columnNames="id" constraintName="pk_tender"/>
+
+        <addForeignKeyConstraint baseTableName="tender" baseColumnNames="ocid"
+                                 constraintName="fk_tender_to_release"
+                                 referencedTableName="release"
+                                 referencedColumnNames="ocid"/>
+
+        <addForeignKeyConstraint baseTableName="tender" baseColumnNames="buyer_id"
+                                 constraintName="fk_tender_to_buyer"
+                                 referencedTableName="party"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="4" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="lot"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="lot">
+            <column name="id" type="integer"/>
+            <column name="tender_id" type="integer"/>
+            <column name="status" type="text"/>
+            <column name="value_amount" type="double precision"/>
+            <column name="value_currency" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="lot" columnNames="id" constraintName="pk_lot"/>
+
+        <addForeignKeyConstraint baseTableName="lot" baseColumnNames="tender_id"
+                                 constraintName="fk_lot_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="5" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="item"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="item">
+            <column name="id" type="integer"/>
+            <column name="tender_id" type="integer"/>
+            <column name="lot_id" type="integer"/>
+            <column name="classification_id" type="text"/>
+            <column name="quantity" type="double precision"/>
+            <column name="unit_id" type="integer"/>
+            <column name="unit_name" type="text"/>
+            <column name="unit_value_amount" type="double precision"/>
+            <column name="unit_value_currency" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="item" columnNames="id" constraintName="pk_item"/>
+
+        <addForeignKeyConstraint baseTableName="item" baseColumnNames="tender_id"
+                                 constraintName="fk_item_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="item" baseColumnNames="lot_id"
+                                 constraintName="fk_item_to_lot"
+                                 referencedTableName="lot"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="6" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="bid"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="bid">
+            <column name="id" type="integer"/>
+            <column name="status" type="text"/>
+            <column name="bidder_id" type="text"/>
+            <column name="tender_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="bid" columnNames="id"
+                       constraintName="pk_bid"/>
+
+        <addForeignKeyConstraint baseTableName="bid"
+                                 baseColumnNames="tender_id"
+                                 constraintName="fk_bid_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="7" author="eddy">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="award"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="award">
+            <column name="id" type="integer"/>
+            <column name="tender_id" type="integer"/>
+            <column name="date" type="timestamp"/>
+            <column name="status" type="text"/>
+            <column name="value_amount" type="double precision"/>
+            <column name="value_currency" type="text"/>
+            <column name="lot_id" type="integer"/>
+            <column name="bid_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="award" columnNames="id" constraintName="pk_award"/>
+
+        <addForeignKeyConstraint baseTableName="award" baseColumnNames="tender_id"
+                                 constraintName="fk_award_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+
+
+        <addForeignKeyConstraint baseTableName="award" baseColumnNames="lot_id"
+                                 constraintName="fk_award_to_lot"
+                                 referencedTableName="lot"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="award" baseColumnNames="bid_id"
+                                 constraintName="fk_award_to_bid"
+                                 referencedTableName="bid"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+</databaseChangeLog>

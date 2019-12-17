@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylypchuk">
+        <renameColumn tableName="buyer_prioritization" oldColumnName="buyer_id" newColumnName="id"/>
+
+        <modifyDataType tableName="buyer_prioritization" columnName="procedures_expected_value" newDataType="double precision"/>
+        <modifyDataType tableName="buyer_prioritization" columnName="contracts_amount" newDataType="double precision"/>
+        <modifyDataType tableName="buyer_prioritization" columnName="risked_procedures_expected_value" newDataType="double precision"/>
+        <modifyDataType tableName="buyer_prioritization" columnName="risked_procedures_expected_value_with_contract" newDataType="double precision"/>
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylypchuk">
+        <renameColumn tableName="tender_prioritization" oldColumnName="tender_id" newColumnName="id"/>
+        <renameColumn tableName="tender_prioritization" oldColumnName="count_completed_lot" newColumnName="completed_lots_count"/>
+        <renameColumn tableName="tender_prioritization" oldColumnName="count_tenderer" newColumnName="tenderers_count"/>
+        <renameColumn tableName="tender_prioritization" oldColumnName="count_disqualified" newColumnName="disqualifieds_count"/>
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <addColumn tableName="tender_prioritization">
+            <column name="buyer_id" type="integer"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="andrey_pylyphuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="contact_point"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="contact_point">
+            <column name="id" type="integer"/>
+            <column name="party_id" type="integer"/>
+            <column name="tender_id" type="integer"/>
+            <column name="email" type="text"/>
+            <column name="phone" type="text"/>
+        </createTable>
+
+        <addPrimaryKey tableName="contact_point" columnNames="id, tender_id"
+                       constraintName="pk_contact_point"/>
+
+        <addForeignKeyConstraint baseTableName="contact_point" baseColumnNames="party_id"
+                                 constraintName="fk_contact_point_to_party"
+                                 referencedTableName="party"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="contact_point" baseColumnNames="tender_id"
+                                 constraintName="fk_contact_point_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="2" author="andrey_pylyphuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="contract"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="contract">
+            <column name="id" type="integer"/>
+            <column name="status" type="text"/>
+            <column name="value_amount" type="double precision"/>
+            <column name="date_signed" type="timestamp"/>
+            <column name="tender_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="contract" columnNames="id"
+                       constraintName="pk_contract"/>
+
+        <addForeignKeyConstraint baseTableName="contract" baseColumnNames="tender_id"
+                                 constraintName="fk_contract_to_tender"
+                                 referencedTableName="tender"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="3" author="andrey_pylypchuk">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="contract_award"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="contract_award">
+            <column name="contract_id" type="integer"/>
+            <column name="award_id" type="integer"/>
+        </createTable>
+
+        <addPrimaryKey tableName="contract_award" columnNames="contract_id, award_id"
+                       constraintName="pk_contract_award"/>
+
+        <addForeignKeyConstraint baseTableName="contract_award"
+                                 baseColumnNames="contract_id"
+                                 constraintName="fk_contract_award_to_contract"
+                                 referencedTableName="contract"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="contract_award"
+                                 baseColumnNames="award_id"
+                                 constraintName="fk_contract_award_to_award"
+                                 referencedTableName="award"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+</databaseChangeLog>
