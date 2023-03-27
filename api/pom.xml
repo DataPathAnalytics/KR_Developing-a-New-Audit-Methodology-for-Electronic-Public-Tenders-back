@@ -18,7 +18,7 @@
         <jjwt.version>0.9.0</jjwt.version>
         <spring.fox.version>2.9.2</spring.fox.version>
         <apache.poi.version>4.0.1</apache.poi.version>
-        <itextpdf.version>5.5.13</itextpdf.version>
+        <itextpdf.version>5.5.13.3</itextpdf.version>
     </properties>
 
     <dependencies>
